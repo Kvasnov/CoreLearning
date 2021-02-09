@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLearning.MessengerPrototype", "CoreLearning.MessengerPrototype\CoreLearning.MessengerPrototype.csproj", "{1B8CCC4D-C31D-4CFF-AC8C-9780DB6724B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLearning.DBLibrary", "CoreLearning.DBLibrary\CoreLearning.DBLibrary.csproj", "{EB0F7822-56F4-4168-B96F-677A75EB368D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B8CCC4D-C31D-4CFF-AC8C-9780DB6724B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B8CCC4D-C31D-4CFF-AC8C-9780DB6724B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B8CCC4D-C31D-4CFF-AC8C-9780DB6724B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B8CCC4D-C31D-4CFF-AC8C-9780DB6724B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB0F7822-56F4-4168-B96F-677A75EB368D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB0F7822-56F4-4168-B96F-677A75EB368D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB0F7822-56F4-4168-B96F-677A75EB368D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB0F7822-56F4-4168-B96F-677A75EB368D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D2200200-9C9A-497E-BA5C-754CF62D75EE}
+	EndGlobalSection
+EndGlobal
