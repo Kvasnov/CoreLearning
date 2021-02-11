@@ -7,5 +7,6 @@ namespace CoreLearning.Interfaces
     {
         public List< User > GetUsers();
         public void AddUser( User user );
+        public void Save();
     }
 }

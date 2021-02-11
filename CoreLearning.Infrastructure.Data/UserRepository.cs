@@ -23,5 +23,10 @@ namespace CoreLearning.Infrastructure.Data
         {
             context.Users.Add( user );
         }
+
+        public void Save()
+        {
+            context.SaveChanges();
+        }
     }
 }

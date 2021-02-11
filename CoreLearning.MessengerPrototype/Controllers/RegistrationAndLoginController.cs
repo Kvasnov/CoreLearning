@@ -34,10 +34,11 @@ namespace CoreLearning.MessengerPrototype.Controllers
             if ( identity != null )
                 return new BadRequestResult();
 
-            var user = new User { AuthenticationData = new AuthenticationData { Login = registerModel.Email, Password = registerModel.Password } };
+            var user = new User { Login = registerModel.Email, Password = registerModel.Password };
             repository.AddUser( user );
+            repository.Save();
 
-            return new JsonResult( registerModel );
+            return Ok(new { Message = "New user", Token = new JsonResult(registerModel) });
         }
 
         [HttpGet]
@@ -75,11 +76,12 @@ namespace CoreLearning.MessengerPrototype.Controllers
 
         private ClaimsIdentity GetIdentity( string username, string password )
         {
-            var user = repository.GetUsers().FirstOrDefault( x => x.AuthenticationData.Login == username && x.AuthenticationData.Password == password );
+            var users = repository.GetUsers();
+            var user = users.FirstOrDefault( x => x.Login == username && x.Password == password );
 
             if ( user != null )
             {
-                var claims = new List< Claim > { new Claim( ClaimsIdentity.DefaultNameClaimType, user.AuthenticationData.Login ) };
+                var claims = new List< Claim > { new Claim( ClaimsIdentity.DefaultNameClaimType, user.Login ) };
                 var claimsIdentity = new ClaimsIdentity( claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType );
 
                 return claimsIdentity;
