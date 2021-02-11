@@ -5,25 +5,25 @@ using System.Linq;
 using System.Security.Claims;
 using CoreLearning.DBLibrary.DTO_models;
 using CoreLearning.DBLibrary.Entities;
-using CoreLearning.Infrastructure.Data;
-using Microsoft.AspNetCore.Authorization;
+using CoreLearning.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CoreLearning.MessengerPrototype.Controllers
 {
-    [AllowAnonymous]
-    public class RegistrationAndLoginController : Controller
+    [ApiController]
+    [Route( "{controller}/{action}" )]
+    public class RegistrationAndLoginController : ControllerBase
     {
-        public RegistrationAndLoginController( UserRepository repository )
+        public RegistrationAndLoginController( IUserRepository repository )
         {
             this.repository = repository;
         }
 
-        private readonly UserRepository repository;
+        private readonly IUserRepository repository;
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Register( RegisterModel registerModel )
         {
             if ( !ModelState.IsValid )
@@ -37,11 +37,17 @@ namespace CoreLearning.MessengerPrototype.Controllers
             var user = new User { AuthenticationData = new AuthenticationData { Login = registerModel.Email, Password = registerModel.Password } };
             repository.AddUser( user );
 
-            return Json( registerModel );
+            return new JsonResult( registerModel );
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return Ok();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Login( LoginModel loginModel )
         {
             if ( !ModelState.IsValid )
@@ -55,7 +61,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             var encodedJwt = CreateToken( identity );
             var response = new { access_token = encodedJwt, username = identity.Name };
 
-            return Ok( new { Token = Json( response ) } );
+            return Ok( new { Token = new JsonResult( response ) } );
         }
 
         private string CreateToken( ClaimsIdentity identity )

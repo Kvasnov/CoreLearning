@@ -19,9 +19,9 @@ namespace CoreLearning.Infrastructure.Data
             return context.Users.ToList();
         }
 
-        public void AddUser(User user)
+        public void AddUser( User user )
         {
-            context.Users.Add(user);
+            context.Users.Add( user );
         }
     }
 }
