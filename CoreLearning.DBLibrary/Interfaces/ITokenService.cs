@@ -1,7 +1,9 @@
-﻿namespace CoreLearning.DBLibrary.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace CoreLearning.DBLibrary.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(string login);
+        Task<string> CreateTokenAsync(string login);
     }
 }

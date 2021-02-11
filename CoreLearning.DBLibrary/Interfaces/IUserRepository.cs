@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoreLearning.DBLibrary.Entities;
 
 namespace CoreLearning.DBLibrary.Interfaces
 {
     public interface IUserRepository
     {
-        List<User> GetUsers();
-        void AddUser(User user);
-        void Save();
-        bool CheckUserIsCreated(string login, string password);
+        Task<List<User>> GetUsersAsync();
+        Task AddUserAsync(User user);
+        Task SaveAsync();
+        Task<bool> CheckUserIsCreatedAsync(string login, string password);
     }
 }

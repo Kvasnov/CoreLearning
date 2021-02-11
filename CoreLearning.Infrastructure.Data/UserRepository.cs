@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using CoreLearning.DBLibrary.Entities;
 using CoreLearning.DBLibrary.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreLearning.Infrastructure.Data
 {
-    public class UserRepository : IUserRepository
+    public sealed class UserRepository : IUserRepository
     {
         public UserRepository(UserContext context)
         {
@@ -14,24 +15,24 @@ namespace CoreLearning.Infrastructure.Data
 
         private readonly UserContext context;
 
-        public List<User> GetUsers()
+        public async Task<List<User>> GetUsersAsync()
         {
-            return context.Users.ToList();
+            return await context.Users.ToListAsync();
         }
 
-        public bool CheckUserIsCreated(string login, string password)
+        public async Task<bool> CheckUserIsCreatedAsync(string login, string password)
         {
-            return context.Users.FirstOrDefault(user => user.Login == login && user.Password == password) != null;
+            return await context.Users.FirstOrDefaultAsync(user => user.Login == login && user.Password == password) != null;
         }
 
-        public void AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
-            context.Users.Add(user);
+            await context.Users.AddAsync(user);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

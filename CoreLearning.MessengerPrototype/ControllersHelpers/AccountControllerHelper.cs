@@ -4,7 +4,7 @@ using CoreLearning.DBLibrary.Interfaces;
 
 namespace CoreLearning.MessengerPrototype.ControllersHelpers
 {
-    public class AccountControllerHelper
+    public sealed class AccountControllerHelper
     {
         public AccountControllerHelper(IUserRepository repository)
         {
@@ -16,13 +16,17 @@ namespace CoreLearning.MessengerPrototype.ControllersHelpers
         public void AddUser(RegisterModel registerModel)
         {
             var user = new User {Login = registerModel.Email, Password = registerModel.Password};
-            repository.AddUser(user);
-            repository.Save();
+            repository.AddUserAsync(user);
         }
 
         public bool CheckUserIsCreated(string login, string password)
         {
-            return repository.CheckUserIsCreated(login, password);
+            return repository.CheckUserIsCreatedAsync(login, password).Result;
+        }
+
+        public void Save()
+        {
+            repository.SaveAsync();
         }
     }
 }

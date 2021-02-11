@@ -27,9 +27,10 @@ namespace CoreLearning.MessengerPrototype.Controllers
                 BadRequest();
 
             if (helper.CheckUserIsCreated(registerModel.Email, registerModel.Password))
-                return new BadRequestResult();
+                return BadRequest();
 
             helper.AddUser(registerModel);
+            helper.Save();
 
             return Ok(new {Message = "New user", User = registerModel.Email});
         }
@@ -50,7 +51,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             if (!helper.CheckUserIsCreated(loginModel.Email, loginModel.Password))
                 return BadRequest();
 
-            var encodedJwt = authorization.CreateToken(loginModel.Email);
+            var encodedJwt = authorization.CreateTokenAsync(loginModel.Email);
             var response = new {access_token = encodedJwt, username = loginModel.Email};
 
             return Ok(response);
