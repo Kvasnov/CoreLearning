@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoreLearning.Infrastructure.Business\CoreLearning.Infrastructure.Business.csproj" />
     <ProjectReference Include="..\CoreLearning.Infrastructure.Data\CoreLearning.Infrastructure.Data.csproj" />
   </ItemGroup>
 

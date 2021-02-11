@@ -1,5 +1,8 @@
+using System.Text;
+using CoreLearning.DBLibrary.Interfaces;
+using CoreLearning.Infrastructure.Business;
 using CoreLearning.Infrastructure.Data;
-using CoreLearning.Interfaces;
+using CoreLearning.MessengerPrototype.ControllersHelpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,44 +16,47 @@ namespace CoreLearning.MessengerPrototype
 {
     public class Startup
     {
-        public Startup( IConfiguration configuration )
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration {get;}
 
-        public void ConfigureServices( IServiceCollection services )
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext< UserContext >( options => options.UseSqlServer( Configuration.GetConnectionString( "DefaultConnection" ) ) );
+            services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
                      AddJwtBearer(options =>
                                   {
                                       options.RequireHttpsMetadata = false;
                                       options.TokenValidationParameters = new TokenValidationParameters
-                                      {
-                                          ValidateIssuer = true,
-                                          ValidIssuer = TokenAuthOptions.ISSUER,
-                                          ValidateAudience = true,
-                                          ValidAudience = TokenAuthOptions.AUDIENCE,
-                                          ValidateLifetime = true,
-                                          IssuerSigningKey = TokenAuthOptions.GetSymmetricSecurityKey(),
-                                          ValidateIssuerSigningKey = true
-                                      };
+                                                                          {
+                                                                              ValidateIssuer = true,
+                                                                              ValidIssuer = "MyAuthServer",//Configuration[ "TokenAuthOptions:Issuer" ],
+                                                                              ValidateAudience = true,
+                                                                              ValidAudience = "MyAuthClient",//Configuration[ "TokenAuthOptions:Audience" ],
+                                                                              ValidateLifetime = true,
+                                                                              IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("somthingstring!123+-"/*Configuration[ "TokenAuthOptions:Key" ]*/)),
+                                                                              ValidateIssuerSigningKey = true
+                                                                          };
                                   });
-            services.AddTransient< IUserRepository, UserRepository >();
+
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddScoped<AccountControllerHelper>();
             services.AddControllers();
         }
 
-        public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if ( env.IsDevelopment() )
+            if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints( endpoints => { endpoints.MapControllers(); } );
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }
