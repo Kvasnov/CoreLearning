@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 
 namespace CoreLearning.DBLibrary.Interfaces
 {
     public interface ITokenService
     {
-        Task<string> CreateTokenAsync(string login);
+        string CreateToken(string login, Guid userId);
     }
 }

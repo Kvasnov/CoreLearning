@@ -1,4 +1,6 @@
-﻿using CoreLearning.DBLibrary.DTO_models;
+﻿using System;
+using System.Threading.Tasks;
+using CoreLearning.DBLibrary.DTO_models;
 using CoreLearning.DBLibrary.Entities;
 using CoreLearning.DBLibrary.Interfaces;
 
@@ -13,10 +15,15 @@ namespace CoreLearning.MessengerPrototype.ControllersHelpers
 
         private readonly IUserRepository repository;
 
-        public void AddUser(RegisterModel registerModel)
+        public async Task AddUserAsync(RegisterModel registerModel)
         {
             var user = new User {Login = registerModel.Email, Password = registerModel.Password};
-            repository.AddUserAsync(user);
+            await repository.AddAsync(user);
+        }
+
+        public Guid GetUserId(string login)
+        {
+            return repository.GetkUserAsync(login).Result.Id;
         }
 
         public bool CheckUserIsCreated(string login, string password)
@@ -24,9 +31,9 @@ namespace CoreLearning.MessengerPrototype.ControllersHelpers
             return repository.CheckUserIsCreatedAsync(login, password).Result;
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            repository.SaveAsync();
+            await repository.SaveAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CoreLearning.DBLibrary.DTO_models;
+﻿using System.Threading.Tasks;
+using CoreLearning.DBLibrary.DTO_models;
 using CoreLearning.DBLibrary.Interfaces;
 using CoreLearning.MessengerPrototype.ControllersHelpers;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +22,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
         private readonly AccountControllerHelper helper;
 
         [HttpPost]
-        public IActionResult Register(RegisterModel registerModel)
+        public async Task<IActionResult> RegisterAsync(RegisterModel registerModel)
         {
             if (!ModelState.IsValid)
                 BadRequest();
@@ -29,8 +30,8 @@ namespace CoreLearning.MessengerPrototype.Controllers
             if (helper.CheckUserIsCreated(registerModel.Email, registerModel.Password))
                 return BadRequest();
 
-            helper.AddUser(registerModel);
-            helper.Save();
+            await helper.AddUserAsync(registerModel);
+            await helper.SaveAsync();
 
             return Ok(new {Message = "New user", User = registerModel.Email});
         }
@@ -43,7 +44,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginModel loginModel)
+        public IActionResult LoginAsync(LoginModel loginModel)
         {
             if (!ModelState.IsValid)
                 BadRequest();
@@ -51,7 +52,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             if (!helper.CheckUserIsCreated(loginModel.Email, loginModel.Password))
                 return BadRequest();
 
-            var encodedJwt = authorization.CreateTokenAsync(loginModel.Email);
+            var encodedJwt = authorization.CreateToken(loginModel.Email, helper.GetUserId(loginModel.Email));
             var response = new {access_token = encodedJwt, username = loginModel.Email};
 
             return Ok(response);

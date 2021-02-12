@@ -2,6 +2,7 @@ using System.Text;
 using CoreLearning.DBLibrary.Interfaces;
 using CoreLearning.Infrastructure.Business;
 using CoreLearning.Infrastructure.Data;
+using CoreLearning.Infrastructure.Data.Repositories;
 using CoreLearning.MessengerPrototype.ControllersHelpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -25,7 +26,7 @@ namespace CoreLearning.MessengerPrototype
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<MessengerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
                      AddJwtBearer(options =>
                                   {
@@ -45,6 +46,7 @@ namespace CoreLearning.MessengerPrototype
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<AccountControllerHelper>();
+            services.AddScoped<SearchControllerHelper>();
             services.AddControllers();
         }
 

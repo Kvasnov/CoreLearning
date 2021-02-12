@@ -1,10 +1,10 @@
 ﻿using System;
+using CoreLearning.DBLibrary.Common;
 
 namespace CoreLearning.DBLibrary.Entities
 {
-    public class Friend
+    public class Friend : BaseEntity
     {
-        public Guid Id {get; set;}
         public Guid UserId {get; set;}
     }
 }

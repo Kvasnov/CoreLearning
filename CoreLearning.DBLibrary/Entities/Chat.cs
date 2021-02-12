@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CoreLearning.DBLibrary.Common;
 
 namespace CoreLearning.DBLibrary.Entities
 {
-    public class Chat
+    public class Chat : BaseEntity
     {
-        public Guid Id {get; set;}
         public List<User> Users {get; set;}
-        public DateTime CreationTime {get; set;}
         public List<Message> MessageHistory {get; set;}
     }
 }

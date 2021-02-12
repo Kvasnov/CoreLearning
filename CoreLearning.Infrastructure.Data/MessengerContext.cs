@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreLearning.Infrastructure.Data
 {
-    public class UserContext : DbContext
+    public class MessengerContext : DbContext
     {
-        public UserContext(DbContextOptions<UserContext> options) : base(options)
+        public MessengerContext(DbContextOptions<MessengerContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
