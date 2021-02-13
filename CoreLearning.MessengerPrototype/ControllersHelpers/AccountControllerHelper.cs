@@ -17,13 +17,21 @@ namespace CoreLearning.MessengerPrototype.ControllersHelpers
 
         public async Task AddUserAsync(RegisterModel registerModel)
         {
-            var user = new User {Login = registerModel.Email, Password = registerModel.Password};
+            var user = new User
+                       {
+                           Login = registerModel.Email,
+                           Password = registerModel.Password,
+                           Name = registerModel.Name,
+                           LastName = registerModel.LastName,
+                           Nickname = registerModel.Nickname
+                       };
+
             await repository.AddAsync(user);
         }
 
         public Guid GetUserId(string login)
         {
-            return repository.GetkUserAsync(login).Result.Id;
+            return repository.GetUserByLoginAsync(login).Result.Id;
         }
 
         public bool CheckUserIsCreated(string login, string password)

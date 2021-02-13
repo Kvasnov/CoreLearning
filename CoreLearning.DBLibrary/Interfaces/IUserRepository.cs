@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using CoreLearning.DBLibrary.Entities;
 using CoreLearning.DBLibrary.Interfaces.Common;
@@ -10,6 +9,6 @@ namespace CoreLearning.DBLibrary.Interfaces
     {
         Task<IQueryable<User>> GetUsersAsync(string nickname, string userId);
         Task<bool> CheckUserIsCreatedAsync(string login, string password);
-        Task<User> GetkUserAsync(string login);
+        Task<User> GetUserByLoginAsync(string login);
     }
 }

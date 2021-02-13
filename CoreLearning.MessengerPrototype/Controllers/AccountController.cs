@@ -2,7 +2,6 @@
 using CoreLearning.DBLibrary.DTO_models;
 using CoreLearning.DBLibrary.Interfaces;
 using CoreLearning.MessengerPrototype.ControllersHelpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreLearning.MessengerPrototype.Controllers
@@ -11,15 +10,15 @@ namespace CoreLearning.MessengerPrototype.Controllers
     [Route("{controller}/{action}")]
     public class AccountController : ControllerBase
     {
-        public AccountController(ITokenService authorization, AccountControllerHelper helper)
+        public AccountController(ITokenService tokenService, AccountControllerHelper helper)
         {
             this.helper = helper;
-            this.authorization = authorization;
+            this.tokenService = tokenService;
         }
 
-        private readonly ITokenService authorization;
-
         private readonly AccountControllerHelper helper;
+
+        private readonly ITokenService tokenService;
 
         [HttpPost]
         public async Task<IActionResult> RegisterAsync(RegisterModel registerModel)
@@ -36,15 +35,8 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {Message = "New user", User = registerModel.Email});
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult TestMethod()
-        {
-            return Ok();
-        }
-
         [HttpPost]
-        public IActionResult LoginAsync(LoginModel loginModel)
+        public IActionResult Login(LoginModel loginModel)
         {
             if (!ModelState.IsValid)
                 BadRequest();
@@ -52,7 +44,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             if (!helper.CheckUserIsCreated(loginModel.Email, loginModel.Password))
                 return BadRequest();
 
-            var encodedJwt = authorization.CreateToken(loginModel.Email, helper.GetUserId(loginModel.Email));
+            var encodedJwt = tokenService.CreateToken(loginModel.Email, helper.GetUserId(loginModel.Email));
             var response = new {access_token = encodedJwt, username = loginModel.Email};
 
             return Ok(response);

@@ -44,9 +44,11 @@ namespace CoreLearning.MessengerPrototype
                                   });
 
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IChatsRepository, ChatsRepository>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<AccountControllerHelper>();
             services.AddScoped<SearchControllerHelper>();
+            services.AddScoped<ChatControllerHelper>();
             services.AddControllers();
         }
 

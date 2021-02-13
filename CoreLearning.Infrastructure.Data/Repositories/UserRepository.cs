@@ -16,7 +16,7 @@ namespace CoreLearning.Infrastructure.Data.Repositories
 
         public async Task<IQueryable<User>> GetUsersAsync(string nickname, string userId)
         {
-            return await Task.Run(()=> context.Users.Where(user => user.Nickname.Contains(nickname) && user.Id != new Guid(userId) ).AsQueryable());
+            return await Task.Run(()=> context.Users.Where(user => user.Nickname.Contains(nickname) && user.Id != Guid.Parse(userId) ).AsQueryable());
         }
 
         public async Task<bool> CheckUserIsCreatedAsync(string login, string password)
@@ -24,9 +24,14 @@ namespace CoreLearning.Infrastructure.Data.Repositories
             return await context.Users.FirstOrDefaultAsync(user => user.Login == login && user.Password == password) != null;
         }
 
-        public async Task<User> GetkUserAsync(string login)
+        public async Task<User> GetUserByLoginAsync(string login)
         {
             return await context.Users.FirstOrDefaultAsync(user => user.Login == login);
+        }
+
+        public override async Task<User> GetByIdAsync(Guid id)
+        {
+            return await context.Users.Include(chat => chat.Chats).FirstOrDefaultAsync(entity => entity.Id.Equals(id));
         }
     }
 }

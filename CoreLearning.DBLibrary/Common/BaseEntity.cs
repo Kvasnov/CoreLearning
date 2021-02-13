@@ -6,6 +6,11 @@ namespace CoreLearning.DBLibrary.Common
 {
     public class BaseEntity
     {
+        public BaseEntity()
+        {
+            Created = DateTime.Now;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id {get; set;}

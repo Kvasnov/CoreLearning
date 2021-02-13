@@ -12,5 +12,14 @@ namespace CoreLearning.DBLibrary.DTO_models
 
         [Compare("Password", ErrorMessage = "Пароль введен неверно")]
         public string ConfirmPassword {get; set;}
+
+        [Required(ErrorMessage = "Не указан Name")]
+        public string Name {get; set;}
+
+        [Required(ErrorMessage = "Не указан LastName")]
+        public string LastName {get; set;}
+
+        [Required(ErrorMessage = "Не указан Nickname")]
+        public string Nickname {get; set;}
     }
 }

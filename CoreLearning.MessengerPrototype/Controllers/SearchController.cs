@@ -15,7 +15,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             this.helper = helper;
         }
 
-        private SearchControllerHelper helper;
+        private readonly SearchControllerHelper helper;
 
         [HttpGet]
         [Authorize]
