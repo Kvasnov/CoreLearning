@@ -29,6 +29,11 @@ namespace CoreLearning.Infrastructure.Data.Repositories
             return await context.Users.FirstOrDefaultAsync(user => user.Login == login);
         }
 
+        public async Task UpdateSettings(User user)
+        {
+            await Task.Run(() => context.Users.Update(user));
+        }
+
         public override async Task<User> GetByIdAsync(Guid id)
         {
             return await context.Users.Include(chat => chat.Chats).FirstOrDefaultAsync(entity => entity.Id.Equals(id));

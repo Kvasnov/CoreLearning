@@ -49,6 +49,7 @@ namespace CoreLearning.MessengerPrototype
             services.AddScoped<AccountControllerHelper>();
             services.AddScoped<SearchControllerHelper>();
             services.AddScoped<ChatControllerHelper>();
+            services.AddScoped<UserSettingsControllerHelper>();
             services.AddControllers();
         }
 

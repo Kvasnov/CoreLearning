@@ -10,5 +10,6 @@ namespace CoreLearning.DBLibrary.Interfaces
         Task<IQueryable<User>> GetUsersAsync(string nickname, string userId);
         Task<bool> CheckUserIsCreatedAsync(string login, string password);
         Task<User> GetUserByLoginAsync(string login);
+        Task UpdateSettings(User user);
     }
 }
