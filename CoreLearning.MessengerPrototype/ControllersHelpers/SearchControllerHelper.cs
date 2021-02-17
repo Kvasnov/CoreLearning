@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLearning.DBLibrary.DTO_models;
-using CoreLearning.DBLibrary.Interfaces;
+using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
+using CoreLearning.DBLibrary.Interfaces.Repositories;
 
 namespace CoreLearning.MessengerPrototype.ControllersHelpers
 {
-    public sealed class SearchControllerHelper
+    public sealed class SearchControllerHelper: ISearchControllerHelper
     {
         public SearchControllerHelper(IUserRepository repository)
         {

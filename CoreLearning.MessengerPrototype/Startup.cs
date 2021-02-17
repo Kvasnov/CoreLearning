@@ -1,5 +1,7 @@
 using System.Text;
 using CoreLearning.DBLibrary.Interfaces;
+using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
+using CoreLearning.DBLibrary.Interfaces.Repositories;
 using CoreLearning.Infrastructure.Business;
 using CoreLearning.Infrastructure.Data;
 using CoreLearning.Infrastructure.Data.Repositories;
@@ -34,22 +36,22 @@ namespace CoreLearning.MessengerPrototype
                                       options.TokenValidationParameters = new TokenValidationParameters
                                                                           {
                                                                               ValidateIssuer = true,
-                                                                              ValidIssuer = "MyAuthServer",//Configuration[ "TokenAuthOptions:Issuer" ],
+                                                                              ValidIssuer = "MyAuthServer", //Configuration[ "TokenAuthOptions:Issuer" ],
                                                                               ValidateAudience = true,
-                                                                              ValidAudience = "MyAuthClient",//Configuration[ "TokenAuthOptions:Audience" ],
+                                                                              ValidAudience = "MyAuthClient", //Configuration[ "TokenAuthOptions:Audience" ],
                                                                               ValidateLifetime = true,
-                                                                              IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("somthingstring!123+-"/*Configuration[ "TokenAuthOptions:Key" ]*/)),
+                                                                              IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("somthingstring!123+-" /*Configuration[ "TokenAuthOptions:Key" ]*/)),
                                                                               ValidateIssuerSigningKey = true
                                                                           };
                                   });
 
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IChatsRepository, ChatsRepository>();
+            services.AddTransient<ICorrespondenceRepository, CorrespondenceRepository>();
             services.AddTransient<ITokenService, TokenService>();
-            services.AddScoped<AccountControllerHelper>();
-            services.AddScoped<SearchControllerHelper>();
-            services.AddScoped<ChatControllerHelper>();
-            services.AddScoped<UserSettingsControllerHelper>();
+            services.AddTransient<IAccountControllerHelper, AccountControllerHelper>();
+            services.AddTransient<ISearchControllerHelper, SearchControllerHelper>();
+            services.AddTransient<ICorrespondenceControllerHelper, CorrespondenceControllerHelper>();
+            services.AddTransient<IUserSettingsControllerHelper, UserSettingsControllerHelper>();
             services.AddControllers();
         }
 

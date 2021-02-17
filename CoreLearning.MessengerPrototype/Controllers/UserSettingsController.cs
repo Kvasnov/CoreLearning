@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using CoreLearning.DBLibrary.DTO_models;
-using CoreLearning.MessengerPrototype.ControllersHelpers;
+using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +11,12 @@ namespace CoreLearning.MessengerPrototype.Controllers
     [Route("{controller}/{action}")]
     public class UserSettingsController : ControllerBase
     {
-        public UserSettingsController(UserSettingsControllerHelper helper)
+        public UserSettingsController(IUserSettingsControllerHelper helper)
         {
             this.helper = helper;
         }
 
-        private readonly UserSettingsControllerHelper helper;
+        private readonly IUserSettingsControllerHelper helper;
 
         [HttpGet]
         [Authorize]
@@ -29,7 +29,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> ChangeUserSettingsAsync(ChangeUserSettingsModel newSettings)
+        public async Task<IActionResult> ChangeUserSettingsAsync([FromBody] ChangeUserSettingsModel newSettings)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
             var settings = await helper.SetUserSettingsAsync(userId, newSettings);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CoreLearning.DBLibrary.Common;
 
 namespace CoreLearning.DBLibrary.Entities
@@ -7,7 +8,7 @@ namespace CoreLearning.DBLibrary.Entities
     {
         public User()
         {
-            Chats = new List<Chat>();
+            Chats = new Collection<Correspondence>();
         }
 
         public string Name {get; set;}
@@ -19,7 +20,7 @@ namespace CoreLearning.DBLibrary.Entities
         //public UserRole Role { get; set; }
         //public List<Friend> Friends { get; set; }
         //public List<BlockedUser> BlockedUsers { get; set; }
-        public List<Chat> Chats {get; set;}
+        public ICollection<Correspondence> Chats {get; set;}
         //public List<FriendshipRequest> FriendshipRequests { get; set; }
         //public PermissionToWrite WhoCanWrite { get; set; }
     }

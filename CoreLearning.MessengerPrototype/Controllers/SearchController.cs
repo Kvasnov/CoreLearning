@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using CoreLearning.MessengerPrototype.ControllersHelpers;
+using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,12 +10,12 @@ namespace CoreLearning.MessengerPrototype.Controllers
     [Route("{controller}/{action}")]
     public class SearchController : ControllerBase
     {
-        public SearchController(SearchControllerHelper helper)
+        public SearchController(ISearchControllerHelper helper)
         {
             this.helper = helper;
         }
 
-        private readonly SearchControllerHelper helper;
+        private readonly ISearchControllerHelper helper;
 
         [HttpGet]
         [Authorize]

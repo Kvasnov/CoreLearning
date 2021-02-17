@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CoreLearning.DBLibrary.DTO_models;
-using CoreLearning.DBLibrary.Interfaces;
+using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
+using CoreLearning.DBLibrary.Interfaces.Repositories;
 
 namespace CoreLearning.MessengerPrototype.ControllersHelpers
 {
-    public sealed class UserSettingsControllerHelper
+    public sealed class UserSettingsControllerHelper: IUserSettingsControllerHelper
     {
         public UserSettingsControllerHelper(IUserRepository repository)
         {

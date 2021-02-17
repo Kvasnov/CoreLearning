@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using CoreLearning.DBLibrary.DTO_models;
 using CoreLearning.DBLibrary.Entities;
-using CoreLearning.DBLibrary.Interfaces;
+using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
+using CoreLearning.DBLibrary.Interfaces.Repositories;
 
 namespace CoreLearning.MessengerPrototype.ControllersHelpers
 {
-    public sealed class AccountControllerHelper
+    public sealed class AccountControllerHelper : IAccountControllerHelper
     {
         public AccountControllerHelper(IUserRepository repository)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CoreLearning.DBLibrary.DTO_models;
 using CoreLearning.DBLibrary.Interfaces;
-using CoreLearning.MessengerPrototype.ControllersHelpers;
+using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreLearning.MessengerPrototype.Controllers
@@ -10,18 +10,18 @@ namespace CoreLearning.MessengerPrototype.Controllers
     [Route("{controller}/{action}")]
     public class AccountController : ControllerBase
     {
-        public AccountController(ITokenService tokenService, AccountControllerHelper helper)
+        public AccountController(ITokenService tokenService, IAccountControllerHelper helper)
         {
             this.helper = helper;
             this.tokenService = tokenService;
         }
 
-        private readonly AccountControllerHelper helper;
+        private readonly IAccountControllerHelper helper;
 
         private readonly ITokenService tokenService;
 
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync(RegisterModel registerModel)
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterModel registerModel)
         {
             if (!ModelState.IsValid)
                 BadRequest();
@@ -36,7 +36,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginModel loginModel)
+        public IActionResult Login([FromBody] LoginModel loginModel)
         {
             if (!ModelState.IsValid)
                 BadRequest();
