@@ -52,6 +52,7 @@ namespace CoreLearning.MessengerPrototype
             services.AddTransient<ISearchControllerHelper, SearchControllerHelper>();
             services.AddTransient<ICorrespondenceControllerHelper, CorrespondenceControllerHelper>();
             services.AddTransient<IUserSettingsControllerHelper, UserSettingsControllerHelper>();
+            services.AddTransient<IFriendshipControllerHelper, FriendshipControllerHelper>();
             services.AddControllers();
         }
 
