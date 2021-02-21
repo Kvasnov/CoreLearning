@@ -18,7 +18,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
 
         private readonly IFriendshipControllerHelper helper;
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> AddToFriendsAsync(Guid friendId)
         {
@@ -56,7 +56,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {InboxApplicationList = await helper.ShowOutboxApplicationListAsync(Guid.Parse(userId))});
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> ApproveApplicationAsync(Guid friendId)
         {
@@ -67,7 +67,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {Message = "Application is approved"});
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> RemoveFriendAsync(Guid friendId)
         {

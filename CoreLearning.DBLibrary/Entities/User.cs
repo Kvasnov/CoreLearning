@@ -19,7 +19,7 @@ namespace CoreLearning.DBLibrary.Entities
         public string Password {get; set;}
 
         //public UserRole Role { get; set; }
-        public ICollection<Friendship> Friends { get; set; }
+        public virtual ICollection<Friendship> Friends { get; set; }
         //public List<BlockedUser> BlockedUsers { get; set; }
         public ICollection<Correspondence> Chats {get; set;}
         //public List<FriendshipRequest> FriendshipRequests { get; set; }

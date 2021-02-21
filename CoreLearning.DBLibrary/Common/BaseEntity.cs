@@ -6,7 +6,7 @@ namespace CoreLearning.DBLibrary.Common
 {
     public abstract class BaseEntity
     {
-        public BaseEntity()
+        protected BaseEntity()
         {
             Created = DateTime.Now;
         }

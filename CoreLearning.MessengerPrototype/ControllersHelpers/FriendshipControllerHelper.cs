@@ -37,11 +37,11 @@ namespace CoreLearning.MessengerPrototype.ControllersHelpers
 
         public async Task<List<FriendModel>> ShowInboxApplicationListAsync(Guid userId)
         {
-            var user = await repository.GetByIdAsync(userId);
-
-            return user.Friends.Where(friend => friend.Inbox).
-                        Select(friend => new FriendModel {Id = friend.UserId, Name = friend.UserFriend.Name, LastName = friend.UserFriend.LastName, Nickname = friend.UserFriend.Nickname}).
-                        ToList();
+            var user = await repository.GetFriendsByUserIdAsync(userId);
+            var test = user.Friends.Where(friend => friend.Inbox).
+                            Select(friend => new FriendModel { Id = friend.UserId, Name = friend.UserFriend.Name, LastName = friend.UserFriend.LastName, Nickname = friend.UserFriend.Nickname }).
+                            ToList();
+            return test;
         }
 
         public async Task<List<FriendModel>> ShowOutboxApplicationListAsync(Guid userId)

@@ -22,9 +22,7 @@ namespace CoreLearning.Infrastructure.Data
         {
             modelBuilder.Entity<User>().HasMany(c => c.Chats).WithMany(s => s.Users).UsingEntity(j => j.ToTable("Users_Chats"));
 
-
-            modelBuilder.Entity<Friendship>().HasOne(fs => fs.User).WithMany(u => u.Friends);
-            modelBuilder.Entity<Friendship>().HasOne(fs => fs.UserFriend).WithMany(u => u.Friends);
+            modelBuilder.Entity<Friendship>().HasOne(fs => fs.UserFriend).WithMany(u => u.Friends).IsRequired();
         }
     }
 }
