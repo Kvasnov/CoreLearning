@@ -8,9 +8,9 @@ namespace CoreLearning.DBLibrary.Interfaces.ControllerHelpers
     public interface IFriendshipControllerHelper
     {
         Task AddToFriendsAsync(Guid userId, Guid friendId);
-        Task<List<FriendModel>> ShowFriedListAsync(Guid userId);
-        Task<List<FriendModel>> ShowInboxApplicationListAsync(Guid userId);
-        Task<List<FriendModel>> ShowOutboxApplicationListAsync(Guid userId);
+        Task<IEnumerable<FriendModel>> ShowFriedListAsync(Guid userId);
+        Task<IEnumerable<FriendModel>> ShowInboxApplicationListAsync(Guid userId);
+        Task<IEnumerable<FriendModel>> ShowOutboxApplicationListAsync(Guid userId);
         Task ApproveApplicationAsync(Guid userId, Guid friendId);
         Task RemoveFriendAsync(Guid userId, Guid friendId);
         Task SaveAsync();

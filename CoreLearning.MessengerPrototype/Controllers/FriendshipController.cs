@@ -26,7 +26,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             await helper.AddToFriendsAsync(Guid.Parse(userId), friendId);
             await helper.SaveAsync();
 
-            return Ok(new {Message = "application of friendship is send"});
+            return Ok(new {Message = $"application of friendship is send, id = {friendId}" });
         }
 
         [HttpPost]
@@ -53,7 +53,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
 
-            return Ok(new {InboxApplicationList = await helper.ShowOutboxApplicationListAsync(Guid.Parse(userId))});
+            return Ok(new {OutboxApplicationList = await helper.ShowOutboxApplicationListAsync(Guid.Parse(userId))});
         }
 
         [HttpGet]
@@ -64,7 +64,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             await helper.ApproveApplicationAsync(Guid.Parse(userId), friendId);
             await helper.SaveAsync();
 
-            return Ok(new {Message = "Application is approved"});
+            return Ok(new {Message = $"Application is approved, friend id = {friendId}"});
         }
 
         [HttpGet]
@@ -75,7 +75,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             await helper.RemoveFriendAsync(Guid.Parse(userId), friendId);
             await helper.SaveAsync();
 
-            return Ok(new {Message = "Friend is removed"});
+            return Ok(new {Message = $"Friend is removed, id = {friendId}" });
         }
     }
 }

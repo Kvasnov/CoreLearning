@@ -47,6 +47,7 @@ namespace CoreLearning.MessengerPrototype
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICorrespondenceRepository, CorrespondenceRepository>();
+            services.AddTransient<IFriendshipRepository, FriendshipRepository>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IAccountControllerHelper, AccountControllerHelper>();
             services.AddTransient<ISearchControllerHelper, SearchControllerHelper>();
