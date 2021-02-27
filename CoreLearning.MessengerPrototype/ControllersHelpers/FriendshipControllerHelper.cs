@@ -19,8 +19,8 @@ namespace CoreLearning.MessengerPrototype.ControllersHelpers
 
         public async Task AddToFriendsAsync(Guid userId, Guid friendId)
         {
-            await repository.AddAsync(new Friendship {UserId = userId, FriendId = friendId});
-            await repository.AddAsync(new Friendship {UserId = friendId, FriendId = userId, Inbox = true});
+            await repository.AddAsync(new Friendship {FriendId = userId, FriendWithId = friendId});
+            await repository.AddAsync(new Friendship {FriendId = friendId, FriendWithId = userId, IsInboxFriendRequest = true});
         }
 
         public async Task<IEnumerable<FriendModel>> ShowFriedListAsync(Guid userId)

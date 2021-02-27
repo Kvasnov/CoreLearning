@@ -39,27 +39,9 @@ namespace CoreLearning.Infrastructure.Data.Repositories
             await Task.Run(() => context.Users.Update(user));
         }
 
-        public override async Task<User> GetByIdAsync(Guid id)
+        public async Task<User> GetByIdAsync(Guid id)
         {
             return await context.Users.FirstOrDefaultAsync(entity => entity.Id.Equals(id));
-        }
-
-        public async Task<User> GetFriendsByUserIdAsync(Guid id)
-        {
-            return await context.Users.Where(user => user.Id.Equals(id)).
-                                 Select(user => new User
-                                                {
-                                                    Friends = user.Friends.Select(friend => new Friendship
-                                                                                            {
-                                                                                                Id = friend.Id,
-                                                                                                UserFriend = friend.UserFriend,
-                                                                                                FriendId = friend.FriendId,
-                                                                                                Inbox = friend.Inbox,
-                                                                                                IsFriend = friend.IsFriend
-                                                                                            }).
-                                                                   ToList()
-                                                }).
-                                 FirstOrDefaultAsync();
         }
     }
 }

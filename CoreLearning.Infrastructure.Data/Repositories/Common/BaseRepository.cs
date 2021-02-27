@@ -1,12 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using CoreLearning.DBLibrary.Common;
+﻿using System.Threading.Tasks;
 using CoreLearning.DBLibrary.Interfaces.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoreLearning.Infrastructure.Data.Repositories.Common
 {
-    public abstract class BaseRepository<TEntity> : IEntityRepository<TEntity> where TEntity : BaseEntity, new()
+    public abstract class BaseRepository<TEntity> : IEntityRepository<TEntity> where TEntity : class, new()
     {
         protected BaseRepository(MessengerContext context)
         {
@@ -23,11 +20,6 @@ namespace CoreLearning.Infrastructure.Data.Repositories.Common
         public async Task SaveAsync()
         {
             await context.SaveChangesAsync();
-        }
-
-        public virtual async Task<TEntity> GetByIdAsync(Guid id)
-        {
-            return await context.Set<TEntity>().FirstOrDefaultAsync(entity => entity.Id.Equals(id));
         }
     }
 }

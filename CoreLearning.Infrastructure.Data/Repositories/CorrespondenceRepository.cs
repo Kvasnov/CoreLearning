@@ -27,7 +27,7 @@ namespace CoreLearning.Infrastructure.Data.Repositories
             context.Correspondences.FirstOrDefault(correspondence => correspondence.Id.ToString() == correspondenceId)?.MessageHistory.Add(message);
         }
 
-        public override async Task<Correspondence> GetByIdAsync(Guid id)
+        public async Task<Correspondence> GetByIdAsync(Guid id)
         {
             return await context.Correspondences.Where(corr => corr.Id.Equals(id)).
                                  Select(corr => new Correspondence

@@ -21,8 +21,8 @@ namespace CoreLearning.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasMany(c => c.Chats).WithMany(s => s.Users).UsingEntity(j => j.ToTable("Users_Chats"));
-
-            modelBuilder.Entity<Friendship>().HasOne(fs => fs.UserFriend).WithMany(u => u.Friends).IsRequired();
+            modelBuilder.Entity<User>().HasMany(user => user.Friendships).WithOne(fr => fr.Friend).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Friendship>().HasKey(friend => new {friend.FriendId, friend.FriendWithId});
         }
     }
 }

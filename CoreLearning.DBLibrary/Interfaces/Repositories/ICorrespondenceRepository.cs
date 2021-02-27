@@ -9,5 +9,7 @@ namespace CoreLearning.DBLibrary.Interfaces.Repositories
     {
         Task<string> FindChatAsync(string senderId, Guid receiverId);
         Task AddMessageAsync(string correspondenceId, Message message);
+        Task<Correspondence> GetByIdAsync(Guid id);
+
     }
 }

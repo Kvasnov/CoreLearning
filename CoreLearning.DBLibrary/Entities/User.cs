@@ -9,7 +9,7 @@ namespace CoreLearning.DBLibrary.Entities
         public User()
         {
             Chats = new Collection<Correspondence>();
-            Friends = new Collection<Friendship>();
+            Friendships = new Collection<Friendship>();
         }
 
         public string Name {get; set;}
@@ -17,9 +17,10 @@ namespace CoreLearning.DBLibrary.Entities
         public string Nickname {get; set;}
         public string Login {get; set;}
         public string Password {get; set;}
+        public string Password1 {get; set;}
 
         //public UserRole Role { get; set; }
-        public virtual ICollection<Friendship> Friends { get; set; }
+        public virtual ICollection<Friendship> Friendships { get; set; }
         //public List<BlockedUser> BlockedUsers { get; set; }
         public ICollection<Correspondence> Chats {get; set;}
         //public List<FriendshipRequest> FriendshipRequests { get; set; }

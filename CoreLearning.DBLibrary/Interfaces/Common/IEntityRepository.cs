@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace CoreLearning.DBLibrary.Interfaces.Common
 {
@@ -7,6 +6,5 @@ namespace CoreLearning.DBLibrary.Interfaces.Common
     {
         Task AddAsync(TEntity entity);
         Task SaveAsync();
-        Task<TEntity> GetByIdAsync(Guid id);
     }
 }

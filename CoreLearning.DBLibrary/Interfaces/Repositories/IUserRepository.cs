@@ -13,6 +13,6 @@ namespace CoreLearning.DBLibrary.Interfaces.Repositories
         Task<User> GetUserByLoginAsync(string login);
         Task<User> GetChatsByUserIdAsync(Guid id);
         Task UpdateSettings(User user);
-        Task<User> GetFriendsByUserIdAsync(Guid id);
+        Task<User> GetByIdAsync(Guid id);
     }
 }

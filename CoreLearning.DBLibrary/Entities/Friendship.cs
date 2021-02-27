@@ -1,18 +1,21 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using CoreLearning.DBLibrary.Common;
 
 namespace CoreLearning.DBLibrary.Entities
 {
-    public class Friendship : BaseEntity
+    public class Friendship
     {
-        public Guid UserId {get; set;}
+        public virtual User Friend {get; set;}
+        public virtual User FriendWith {get; set;}
 
-        [ForeignKey(nameof( UserFriend ))]
+        [ForeignKey(nameof( Friend ))]
         public Guid FriendId {get; set;}
 
-        public User UserFriend {get; set;}
-        public bool IsFriend {get; set;}
-        public bool Inbox {get; set;}
+        [ForeignKey(nameof( FriendWith ))]
+        public Guid FriendWithId {get; set;}
+
+        public bool AreTheyFriends {get; set;}
+        public bool IsInboxFriendRequest {get; set;}
+        public DateTime Created {get; set;}
     }
 }
