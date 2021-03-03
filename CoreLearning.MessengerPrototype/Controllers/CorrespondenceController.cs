@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CoreLearning.MessengerPrototype.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("Correspondence")]
     public class CorrespondenceController : ControllerBase
     {
         public CorrespondenceController(ICorrespondenceControllerHelper helper)
@@ -19,10 +19,11 @@ namespace CoreLearning.MessengerPrototype.Controllers
 
         private readonly ICorrespondenceControllerHelper helper;
 
-        [HttpPost]
+        [HttpPost("SendMessage")]
         [Authorize]
         public async Task<IActionResult> SendMessageAsync([FromBody] ReceiverModel userMessage)
-        {
+        {//проверка могут ли пользователю писать не друзья??
+            //проверка, не заблокирован ли пользователь 
             var senderUserId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
             var correspondenceId = await helper.FindChatAsync(senderUserId, userMessage.ReceiverUserId) ?? await helper.CreateChatAsync(senderUserId, userMessage.ReceiverUserId);
             if (Guid.Parse(correspondenceId).Equals(Guid.Empty))
@@ -34,7 +35,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {status = "message sent"});
         }
 
-        [HttpGet]
+        [HttpGet("ShowChat")]
         [Authorize]
         public async Task<IActionResult> ShowChatAsync(Guid receiverUserId)
         {
@@ -44,7 +45,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {Chat = await helper.ShowChatAsync(correspondenceId)});
         }
 
-        [HttpGet]
+        [HttpGet("ShowAllChat")]
         [Authorize]
         public async Task<IActionResult> ShowAllChatAsync()
         {

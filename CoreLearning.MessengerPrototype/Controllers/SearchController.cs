@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CoreLearning.MessengerPrototype.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("Search")]
     public class SearchController : ControllerBase
     {
         public SearchController(ISearchControllerHelper helper)
@@ -17,7 +17,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
 
         private readonly ISearchControllerHelper helper;
 
-        [HttpGet]
+        [HttpGet("SearchUsers")]
         [Authorize]
         public async Task<IActionResult> SearchUsersAsync(string nickname)
         {

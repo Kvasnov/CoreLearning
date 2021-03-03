@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CoreLearning.MessengerPrototype.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("UserSettings")]
     public class UserSettingsController : ControllerBase
     {
         public UserSettingsController(IUserSettingsControllerHelper helper)
@@ -18,7 +18,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
 
         private readonly IUserSettingsControllerHelper helper;
 
-        [HttpGet]
+        [HttpGet("ShowUserSettings")]
         [Authorize]
         public async Task<IActionResult> ShowUserSettingsAsync()
         {
@@ -27,7 +27,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {Settings = await helper.GetUserSettingsAsync(userId)});
         }
 
-        [HttpPost]
+        [HttpPost("ChangeUserSettings")]
         [Authorize]
         public async Task<IActionResult> ChangeUserSettingsAsync([FromBody] ChangeUserSettingsModel newSettings)
         {

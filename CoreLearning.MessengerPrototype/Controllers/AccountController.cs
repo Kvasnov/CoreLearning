@@ -2,12 +2,13 @@
 using CoreLearning.DBLibrary.DTO_models;
 using CoreLearning.DBLibrary.Interfaces;
 using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreLearning.MessengerPrototype.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("Account")]
     public class AccountController : ControllerBase
     {
         public AccountController(ITokenService tokenService, IAccountControllerHelper helper)
@@ -20,8 +21,8 @@ namespace CoreLearning.MessengerPrototype.Controllers
 
         private readonly ITokenService tokenService;
 
-        [HttpPost]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegisterModel registerModel)
+        [HttpPost("Register")]
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterModel registerModel, IFormFile File)
         {
             if (!ModelState.IsValid)
                 BadRequest();
@@ -35,7 +36,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {Message = "New user", User = registerModel.Email});
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public IActionResult Login([FromBody] LoginModel loginModel)
         {
             if (!ModelState.IsValid)

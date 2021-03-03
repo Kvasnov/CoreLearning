@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CoreLearning.MessengerPrototype.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("Friendship")]
     public class FriendshipController : ControllerBase
     {
         public FriendshipController(IFriendshipControllerHelper helper)
@@ -18,7 +18,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
 
         private readonly IFriendshipControllerHelper helper;
 
-        [HttpGet]
+        [HttpGet("AddToFriends")]
         [Authorize]
         public async Task<IActionResult> AddToFriendsAsync(Guid friendId)
         {
@@ -29,7 +29,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {Message = $"application of friendship is send, id = {friendId}" });
         }
 
-        [HttpPost]
+        [HttpPost("ShowFriedList")]
         [Authorize]
         public async Task<IActionResult> ShowFriedListAsync()
         {
@@ -38,7 +38,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {FriendList = await helper.ShowFriedListAsync(Guid.Parse(userId))});
         }
 
-        [HttpPost]
+        [HttpPost("ShowInboxApplicationList")]
         [Authorize]
         public async Task<IActionResult> ShowInboxApplicationListAsync()
         {
@@ -47,7 +47,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {InboxApplicationList = await helper.ShowInboxApplicationListAsync(Guid.Parse(userId))});
         }
 
-        [HttpPost]
+        [HttpPost("ShowOutboxApplicationList")]
         [Authorize]
         public async Task<IActionResult> ShowOutboxApplicationListAsync()
         {
@@ -56,7 +56,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {OutboxApplicationList = await helper.ShowOutboxApplicationListAsync(Guid.Parse(userId))});
         }
 
-        [HttpGet]
+        [HttpGet("ApproveApplication")]
         [Authorize]
         public async Task<IActionResult> ApproveApplicationAsync(Guid friendId)
         {
@@ -67,7 +67,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
             return Ok(new {Message = $"Application is approved, friend id = {friendId}"});
         }
 
-        [HttpGet]
+        [HttpGet("RemoveFriend")]
         [Authorize]
         public async Task<IActionResult> RemoveFriendAsync(Guid friendId)
         {
