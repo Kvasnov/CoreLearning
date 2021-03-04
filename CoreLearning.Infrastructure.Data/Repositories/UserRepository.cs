@@ -14,9 +14,9 @@ namespace CoreLearning.Infrastructure.Data.Repositories
         {
         }
 
-        public async Task<IQueryable<User>> GetUsersAsync(string nickname, string userId)
+        public async Task<IQueryable<User>> GetUsersAsync(string nickname, Guid userId)
         {
-            return await Task.Run(() => context.Users.Where(user => user.Nickname.Contains(nickname) && user.Id != Guid.Parse(userId)).AsQueryable());
+            return await Task.Run(() => context.Users.Where(user => user.Nickname.Contains(nickname) && user.Id != userId).AsQueryable());
         }
 
         public async Task<bool> CheckUserIsCreatedAsync(string login, string password)

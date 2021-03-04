@@ -8,7 +8,7 @@ namespace CoreLearning.DBLibrary.Interfaces.Repositories
 {
     public interface IUserRepository : IEntityRepository<User>
     {
-        Task<IQueryable<User>> GetUsersAsync(string nickname, string userId);
+        Task<IQueryable<User>> GetUsersAsync(string nickname, Guid userId);
         Task<bool> CheckUserIsCreatedAsync(string login, string password);
         Task<User> GetUserByLoginAsync(string login);
         Task<User> GetChatsByUserIdAsync(Guid id);

@@ -22,7 +22,7 @@ namespace CoreLearning.MessengerPrototype.Controllers
         private readonly ITokenService tokenService;
 
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegisterModel registerModel, IFormFile File)
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterModel registerModel)
         {
             if (!ModelState.IsValid)
                 BadRequest();

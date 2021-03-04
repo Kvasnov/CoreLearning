@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLearning.DBLibrary.DTO_models;
@@ -16,7 +17,7 @@ namespace CoreLearning.MessengerPrototype.ControllersHelpers
 
         private readonly IUserRepository repository;
 
-        public async Task<IEnumerable<SearchModel>> SearchUsersAsync(string nickname, string userId)
+        public async Task<IEnumerable<SearchModel>> SearchUsersAsync(string nickname, Guid userId)
         {
             var users = await repository.GetUsersAsync(nickname, userId);
 

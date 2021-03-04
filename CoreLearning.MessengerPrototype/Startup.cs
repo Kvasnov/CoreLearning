@@ -4,9 +4,11 @@ using CoreLearning.DBLibrary.Interfaces;
 using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
 using CoreLearning.DBLibrary.Interfaces.Repositories;
 using CoreLearning.Infrastructure.Business;
+using CoreLearning.Infrastructure.Business.Mediators.Handlers;
 using CoreLearning.Infrastructure.Data;
 using CoreLearning.Infrastructure.Data.Repositories;
 using CoreLearning.MessengerPrototype.ControllersHelpers;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,11 +40,11 @@ namespace CoreLearning.MessengerPrototype
                                       options.TokenValidationParameters = new TokenValidationParameters
                                                                           {
                                                                               ValidateIssuer = true,
-                                                                              ValidIssuer = "MyAuthServer", //Configuration[ "TokenAuthOptions:Issuer" ],
+                                                                              ValidIssuer = Configuration[ "TokenAuthOptions:Issuer" ],
                                                                               ValidateAudience = true,
-                                                                              ValidAudience = "MyAuthClient", //Configuration[ "TokenAuthOptions:Audience" ],
+                                                                              ValidAudience = Configuration[ "TokenAuthOptions:Audience" ],
                                                                               ValidateLifetime = true,
-                                                                              IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("somthingstring!123+-" /*Configuration[ "TokenAuthOptions:Key" ]*/)),
+                                                                              IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration[ "TokenAuthOptions:Key" ])),
                                                                               ValidateIssuerSigningKey = true
                                                                           };
                                   });
@@ -84,6 +86,8 @@ namespace CoreLearning.MessengerPrototype
                                                                           }
                                                                       });
                                    });
+
+            services.AddMediatR(typeof(SearchUsersHandler));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
