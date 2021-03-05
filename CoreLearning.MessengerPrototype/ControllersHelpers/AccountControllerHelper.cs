@@ -35,9 +35,9 @@ namespace CoreLearning.MessengerPrototype.ControllersHelpers
             return repository.GetUserByLoginAsync(login).Result.Id;
         }
 
-        public bool CheckUserIsCreated(string login, string password)
+        public async Task<bool> CheckUserIsCreated(string login, string password)
         {
-            return repository.CheckUserIsCreatedAsync(login, password).Result;
+            return await repository.CheckUserIsCreatedAsync(login, password);
         }
 
         public async Task SaveAsync()

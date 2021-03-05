@@ -8,7 +8,7 @@ namespace CoreLearning.DBLibrary.Interfaces.ControllerHelpers
     {
         Task AddUserAsync(RegisterModel registerModel);
         Guid GetUserId(string login);
-        bool CheckUserIsCreated(string login, string password);
+        Task<bool> CheckUserIsCreated(string login, string password);
         Task SaveAsync();
     }
 }

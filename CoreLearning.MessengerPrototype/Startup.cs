@@ -4,10 +4,12 @@ using CoreLearning.DBLibrary.Interfaces;
 using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
 using CoreLearning.DBLibrary.Interfaces.Repositories;
 using CoreLearning.Infrastructure.Business;
+using CoreLearning.Infrastructure.Business.Mediators;
 using CoreLearning.Infrastructure.Business.Mediators.Handlers;
 using CoreLearning.Infrastructure.Data;
 using CoreLearning.Infrastructure.Data.Repositories;
 using CoreLearning.MessengerPrototype.ControllersHelpers;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -87,7 +89,8 @@ namespace CoreLearning.MessengerPrototype
                                                                       });
                                    });
 
-            services.AddMediatR(typeof(SearchUsersHandler));
+            services.AddMediatR(typeof( MediatorService ));
+            services.AddValidatorsFromAssembly(typeof( SearchUsersHandler ).Assembly);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

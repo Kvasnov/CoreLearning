@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoreLearning.DBLibrary.DTO_models;
 using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
+using CoreLearning.Infrastructure.Business.Mediators.Commands;
 using CoreLearning.Infrastructure.Business.Mediators.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -40,10 +41,10 @@ namespace CoreLearning.MessengerPrototype.Controllers
         public async Task<IActionResult> ChangeUserSettingsAsync([FromBody] ChangeUserSettingsModel newSettings)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            var settings = await helper.SetUserSettingsAsync(userId, newSettings);
-            await helper.SaveAsync();
+            var command = new ChangeUserSettingsCommand(Guid.Parse(userId), newSettings);
+            var result = await mediator.Send(command);
 
-            return Ok(new {Message = "Новые настройки применены", Settings = settings});
+            return result != null ? (IActionResult) Ok(new {Message = "Новые настройки применены", Settings = result}) : NotFound();
         }
     }
 }
