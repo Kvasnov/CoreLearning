@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLearning.DBLibrary.DTO_models;
-using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
 using CoreLearning.Infrastructure.Business.Mediators.Commands;
 using CoreLearning.Infrastructure.Business.Mediators.Queries;
 using MediatR;
@@ -15,13 +14,10 @@ namespace CoreLearning.MessengerPrototype.Controllers
     [Route("UserSettings")]
     public class UserSettingsController : ControllerBase
     {
-        public UserSettingsController(IUserSettingsControllerHelper helper, IMediator mediator)
+        public UserSettingsController(IMediator mediator)
         {
-            this.helper = helper;
             this.mediator = mediator;
         }
-
-        private readonly IUserSettingsControllerHelper helper;
 
         private readonly IMediator mediator;
 
@@ -30,6 +26,10 @@ namespace CoreLearning.MessengerPrototype.Controllers
         public async Task<IActionResult> ShowUserSettingsAsync()
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
             var query = new ShowUserSettingsQuery(Guid.Parse(userId));
             var result = await mediator.Send(query);
 
@@ -41,6 +41,10 @@ namespace CoreLearning.MessengerPrototype.Controllers
         public async Task<IActionResult> ChangeUserSettingsAsync([FromBody] ChangeUserSettingsModel newSettings)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
             var command = new ChangeUserSettingsCommand(Guid.Parse(userId), newSettings);
             var result = await mediator.Send(command);
 

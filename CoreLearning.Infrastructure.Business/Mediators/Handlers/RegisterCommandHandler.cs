@@ -8,9 +8,9 @@ using MediatR;
 
 namespace CoreLearning.Infrastructure.Business.Mediators.Handlers
 {
-    public class RegisterHandler : IRequestHandler<RegisterCommand>
+    public class RegisterCommandHandler : IRequestHandler<RegisterCommand>
     {
-        public RegisterHandler(IUserRepository repository)
+        public RegisterCommandHandler(IUserRepository repository)
         {
             this.repository = repository;
         }

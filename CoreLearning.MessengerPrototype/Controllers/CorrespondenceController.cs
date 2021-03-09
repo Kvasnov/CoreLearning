@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLearning.DBLibrary.DTO_models;
-using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
+using CoreLearning.Infrastructure.Business.Mediators.Commands;
+using CoreLearning.Infrastructure.Business.Mediators.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,25 +14,26 @@ namespace CoreLearning.MessengerPrototype.Controllers
     [Route("Correspondence")]
     public class CorrespondenceController : ControllerBase
     {
-        public CorrespondenceController(ICorrespondenceControllerHelper helper)
+        public CorrespondenceController(IMediator mediator)
         {
-            this.helper = helper;
+            this.mediator = mediator;
         }
 
-        private readonly ICorrespondenceControllerHelper helper;
+        private readonly IMediator mediator;
 
         [HttpPost("SendMessage")]
         [Authorize]
         public async Task<IActionResult> SendMessageAsync([FromBody] ReceiverModel userMessage)
-        {//проверка могут ли пользователю писать не друзья??
-            //проверка, не заблокирован ли пользователь 
+        {
+            //проверка могут ли пользователю писать не друзья??
+            //проверка, не заблокирован ли пользователь
             var senderUserId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            var correspondenceId = await helper.FindChatAsync(senderUserId, userMessage.ReceiverUserId) ?? await helper.CreateChatAsync(senderUserId, userMessage.ReceiverUserId);
-            if (Guid.Parse(correspondenceId).Equals(Guid.Empty))
-                correspondenceId = await helper.FindChatAsync(senderUserId, userMessage.ReceiverUserId);
 
-            await helper.SendMessageAsync(correspondenceId, senderUserId, userMessage.Description);
-            await helper.SaveAsync();
+            if (string.IsNullOrEmpty(senderUserId))
+                return BadRequest();
+
+            var command = new SendMessageCommand(userMessage, Guid.Parse(senderUserId));
+            await mediator.Send(command);
 
             return Ok(new {status = "message sent"});
         }
@@ -40,9 +43,14 @@ namespace CoreLearning.MessengerPrototype.Controllers
         public async Task<IActionResult> ShowChatAsync(Guid receiverUserId)
         {
             var senderUserId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            var correspondenceId = await helper.FindChatAsync(senderUserId, receiverUserId);
 
-            return Ok(new {Chat = await helper.ShowChatAsync(correspondenceId)});
+            if (string.IsNullOrEmpty(senderUserId))
+                return BadRequest();
+
+            var query = new ShowChatQuery(Guid.Parse(senderUserId), receiverUserId);
+            var result = await mediator.Send(query);
+
+            return Ok(new {Chat = result});
         }
 
         [HttpGet("ShowAllChat")]
@@ -50,9 +58,14 @@ namespace CoreLearning.MessengerPrototype.Controllers
         public async Task<IActionResult> ShowAllChatAsync()
         {
             var senderUserId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            var chats = await helper.ShowAllChatsAsync(Guid.Parse(senderUserId));
 
-            return Ok(new {Chats = chats});
+            if (string.IsNullOrEmpty(senderUserId))
+                return BadRequest();
+
+            var query = new ShowAllChatQuery(Guid.Parse(senderUserId));
+            var result = await mediator.Send(query);
+
+            return Ok(new {Chats = result});
         }
     }
 }

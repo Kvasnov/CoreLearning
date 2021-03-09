@@ -1,24 +1,11 @@
 using System.Collections.Generic;
-using System.Text;
-using CoreLearning.DBLibrary.Interfaces;
-using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
-using CoreLearning.DBLibrary.Interfaces.Repositories;
 using CoreLearning.Infrastructure.Business;
-using CoreLearning.Infrastructure.Business.Mediators;
-using CoreLearning.Infrastructure.Business.Mediators.Handlers;
 using CoreLearning.Infrastructure.Data;
-using CoreLearning.Infrastructure.Data.Repositories;
-using CoreLearning.MessengerPrototype.ControllersHelpers;
-using FluentValidation;
-using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace CoreLearning.MessengerPrototype
@@ -34,32 +21,7 @@ namespace CoreLearning.MessengerPrototype
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MessengerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
-                     AddJwtBearer(options =>
-                                  {
-                                      options.RequireHttpsMetadata = false;
-                                      options.TokenValidationParameters = new TokenValidationParameters
-                                                                          {
-                                                                              ValidateIssuer = true,
-                                                                              ValidIssuer = Configuration[ "TokenAuthOptions:Issuer" ],
-                                                                              ValidateAudience = true,
-                                                                              ValidAudience = Configuration[ "TokenAuthOptions:Audience" ],
-                                                                              ValidateLifetime = true,
-                                                                              IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration[ "TokenAuthOptions:Key" ])),
-                                                                              ValidateIssuerSigningKey = true
-                                                                          };
-                                  });
-
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<ICorrespondenceRepository, CorrespondenceRepository>();
-            services.AddTransient<IFriendshipRepository, FriendshipRepository>();
-            services.AddTransient<ITokenService, TokenService>();
-            services.AddTransient<IAccountControllerHelper, AccountControllerHelper>();
-            services.AddTransient<ISearchControllerHelper, SearchControllerHelper>();
-            services.AddTransient<ICorrespondenceControllerHelper, CorrespondenceControllerHelper>();
-            services.AddTransient<IUserSettingsControllerHelper, UserSettingsControllerHelper>();
-            services.AddTransient<IFriendshipControllerHelper, FriendshipControllerHelper>();
+            services.AddInfrastructureData(Configuration);
             services.AddControllers();
             services.AddSwaggerGen(options =>
                                    {
@@ -89,8 +51,7 @@ namespace CoreLearning.MessengerPrototype
                                                                       });
                                    });
 
-            services.AddMediatR(typeof( MediatorService ));
-            services.AddValidatorsFromAssembly(typeof( SearchUsersHandler ).Assembly);
+            services.AddInfrastructureBusiness(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

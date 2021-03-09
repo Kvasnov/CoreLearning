@@ -9,9 +9,9 @@ using MediatR;
 
 namespace CoreLearning.Infrastructure.Business.Mediators.Handlers
 {
-    public class SearchUsersHandler : IRequestHandler<SearchUsersQuery, List<SearchModel>>
+    public class SearchUsersQueryHandler : IRequestHandler<SearchUsersQuery, List<SearchModel>>
     {
-        public SearchUsersHandler(IUserRepository repository)
+        public SearchUsersQueryHandler(IUserRepository repository)
         {
             this.repository = repository;
         }

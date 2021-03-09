@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
+using CoreLearning.Infrastructure.Business.Mediators.Commands;
+using CoreLearning.Infrastructure.Business.Mediators.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,22 +13,26 @@ namespace CoreLearning.MessengerPrototype.Controllers
     [Route("Friendship")]
     public class FriendshipController : ControllerBase
     {
-        public FriendshipController(IFriendshipControllerHelper helper)
+        public FriendshipController(IMediator mediator)
         {
-            this.helper = helper;
+            this.mediator = mediator;
         }
 
-        private readonly IFriendshipControllerHelper helper;
+        private readonly IMediator mediator;
 
         [HttpGet("AddToFriends")]
         [Authorize]
         public async Task<IActionResult> AddToFriendsAsync(Guid friendId)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            await helper.AddToFriendsAsync(Guid.Parse(userId), friendId);
-            await helper.SaveAsync();
 
-            return Ok(new {Message = $"application of friendship is send, id = {friendId}" });
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
+            var query = new AddToFriendsQuery(Guid.Parse(userId), friendId);
+            await mediator.Send(query);
+
+            return Ok(new {Message = $"application of friendship is send, id = {friendId}"});
         }
 
         [HttpPost("ShowFriedList")]
@@ -35,7 +41,13 @@ namespace CoreLearning.MessengerPrototype.Controllers
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
 
-            return Ok(new {FriendList = await helper.ShowFriedListAsync(Guid.Parse(userId))});
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
+            var command = new ShowFriedListCommand(Guid.Parse(userId));
+            var result = await mediator.Send(command);
+
+            return Ok(new {FriendList = result});
         }
 
         [HttpPost("ShowInboxApplicationList")]
@@ -44,7 +56,13 @@ namespace CoreLearning.MessengerPrototype.Controllers
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
 
-            return Ok(new {InboxApplicationList = await helper.ShowInboxApplicationListAsync(Guid.Parse(userId))});
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
+            var command = new ShowInboxApplicationListCommand(Guid.Parse(userId));
+            var result = await mediator.Send(command);
+
+            return Ok(new {InboxApplicationList = result});
         }
 
         [HttpPost("ShowOutboxApplicationList")]
@@ -53,7 +71,13 @@ namespace CoreLearning.MessengerPrototype.Controllers
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
 
-            return Ok(new {OutboxApplicationList = await helper.ShowOutboxApplicationListAsync(Guid.Parse(userId))});
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
+            var command = new ShowOutboxApplicationCommand(Guid.Parse(userId));
+            var result = await mediator.Send(command);
+
+            return Ok(new {OutboxApplicationList = result});
         }
 
         [HttpGet("ApproveApplication")]
@@ -61,8 +85,12 @@ namespace CoreLearning.MessengerPrototype.Controllers
         public async Task<IActionResult> ApproveApplicationAsync(Guid friendId)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            await helper.ApproveApplicationAsync(Guid.Parse(userId), friendId);
-            await helper.SaveAsync();
+
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
+            var query = new ApproveApplicationQuery(Guid.Parse(userId), friendId);
+            await mediator.Send(query);
 
             return Ok(new {Message = $"Application is approved, friend id = {friendId}"});
         }
@@ -72,10 +100,14 @@ namespace CoreLearning.MessengerPrototype.Controllers
         public async Task<IActionResult> RemoveFriendAsync(Guid friendId)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            await helper.RemoveFriendAsync(Guid.Parse(userId), friendId);
-            await helper.SaveAsync();
 
-            return Ok(new {Message = $"Friend is removed, id = {friendId}" });
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
+            var query = new RemoveFriendQuery(Guid.Parse(userId), friendId);
+            await mediator.Send(query);
+
+            return Ok(new {Message = $"Friend is removed, id = {friendId}"});
         }
     }
 }

@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CoreLearning.DBLibrary\CoreLearning.DBLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mediators\Validators\" />
+  </ItemGroup>
+
 </Project>

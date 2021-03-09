@@ -7,9 +7,9 @@ using MediatR;
 
 namespace CoreLearning.Infrastructure.Business.Mediators.Handlers
 {
-    public class ShowUserSettingsHandler : IRequestHandler<ShowUserSettingsQuery, UserSettingsModel>
+    public class ShowUserSettingsQueryHandler : IRequestHandler<ShowUserSettingsQuery, UserSettingsModel>
     {
-        public ShowUserSettingsHandler(IUserRepository repository)
+        public ShowUserSettingsQueryHandler(IUserRepository repository)
         {
             this.repository = repository;
         }

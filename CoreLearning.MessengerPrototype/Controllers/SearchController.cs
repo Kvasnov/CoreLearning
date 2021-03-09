@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using CoreLearning.DBLibrary.Interfaces.ControllerHelpers;
 using CoreLearning.Infrastructure.Business.Mediators.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,13 +12,11 @@ namespace CoreLearning.MessengerPrototype.Controllers
     [Route("Search")]
     public class SearchController : ControllerBase
     {
-        public SearchController(ISearchControllerHelper helper, IMediator mediator )
+        public SearchController(IMediator mediator)
         {
-            this.helper = helper;
             this.mediator = mediator;
         }
 
-        private readonly ISearchControllerHelper helper;
         private readonly IMediator mediator;
 
         [HttpGet("SearchUsers")]
@@ -27,6 +24,10 @@ namespace CoreLearning.MessengerPrototype.Controllers
         public async Task<IActionResult> SearchUsersAsync(string nickname)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
             var query = new SearchUsersQuery(nickname, Guid.Parse(userId));
             var result = await mediator.Send(query);
 

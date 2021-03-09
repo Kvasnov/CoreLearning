@@ -14,9 +14,9 @@ namespace CoreLearning.Infrastructure.Data.Repositories
         {
         }
 
-        public async Task<string> FindChatAsync(string senderId, Guid receiverId)
+        public async Task<string> FindChatAsync(Guid senderId, Guid receiverId)
         {
-            var correspondence = await context.Correspondences.Where(ch => ch.Users.Any(user => user.Id.ToString() == senderId)).FirstOrDefaultAsync(ch => ch.Users.Any(user => user.Id.Equals(receiverId)));
+            var correspondence = await context.Correspondences.Where(ch => ch.Users.Any(user => user.Id.Equals(senderId))).FirstOrDefaultAsync(ch => ch.Users.Any(user => user.Id.Equals(receiverId)));
 
             return correspondence?.Id.ToString();
         }
